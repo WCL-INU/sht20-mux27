@@ -111,4 +111,4 @@ if __name__ == "__main__":
         print(response.text)
         # Clear data for next iteration
 
-        time.sleep(10)
+        time.sleep(60)

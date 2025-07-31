@@ -1,0 +1,12 @@
+[Unit]
+Description=SHT20 sensor upload service
+After=multi-user.target
+
+[Service]
+EnvironmentFile=/home/pi/Documents/sht20-mux27/env/.env
+ExecStart=/home/pi/Documents/sht20-mux27/venv/bin/python /home/pi/Documents/sht20-mux27/src/upload_sht20_mux27.py
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# This script sets up the SHT20 sensor on a Raspberry Pi
+
+sudo apt update
+sudo apt upgrade -y
+
+python3 -m venv venv
+source venv/bin/activate
+
+pip install -r requirements.txt
+
+sudo cp upload-sht20-mux27.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable upload-sht20-mux27.service
+sudo systemctl start upload-sht20-mux27.service

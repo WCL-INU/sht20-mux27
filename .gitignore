@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.pyd
+
+# Build & packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Environments
+venv/
+!env/
+env/*
+!env/.env.example
+
+# Logs & reports
+*.log
+*.cover
+.coverage*
+.cache
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store

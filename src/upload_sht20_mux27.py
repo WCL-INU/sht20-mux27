@@ -24,6 +24,7 @@ SHT20_ADDR = 0x40
 TRIG_TEMP_MEASURE_HOLD = 0xE3
 TRIG_HUMI_MEASURE_HOLD = 0xE5
 
+
 def read_sensor(command):
     bus = smbus2.SMBus(1)  # Use I2C bus 1
     bus.write_byte(SHT20_ADDR, command)
@@ -32,6 +33,7 @@ def read_sensor(command):
     bus.close()
     return data
 
+
 def read_temperature():
     data = read_sensor(TRIG_TEMP_MEASURE_HOLD)
     raw_temp = (data[0] << 8) + data[1]
@@ -39,12 +41,14 @@ def read_temperature():
     temp = -46.85 + 175.72 * raw_temp / 65536.0
     return temp
 
+
 def read_humidity():
     data = read_sensor(TRIG_HUMI_MEASURE_HOLD)
     raw_humi = (data[0] << 8) + data[1]
     raw_humi &= 0xFFFC
     humi = -6 + 125.0 * raw_humi / 65536.0
     return humi
+
 
 if __name__ == "__main__":
     # # 로그 설정 1
@@ -57,13 +61,15 @@ if __name__ == "__main__":
 
     # 로그 설정 2
     handler = TimedRotatingFileHandler(
-        '/home/pi/sensing_and_uplink.log',  # 로그 파일 경로
-        when='midnight',         # 회전 시간 간격 (예: 'S', 'M', 'H', 'D', 'midnight', 'W0'-'W6')
-        interval=1,              # 간격의 단위 수 (예: 1일)
-        backupCount=7            # 보관할 백업 파일 수
+        "/home/pi/sensing_and_uplink.log",  # 로그 파일 경로
+        when="midnight",  # 회전 시간 간격 (예: 'S', 'M', 'H', 'D', 'midnight', 'W0'-'W6')
+        interval=1,  # 간격의 단위 수 (예: 1일)
+        backupCount=7,  # 보관할 백업 파일 수
     )
 
-    formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s', '%Y-%m-%d %H:%M:%S')
+    formatter = logging.Formatter(
+        "%(asctime)s %(levelname)s: %(message)s", "%Y-%m-%d %H:%M:%S"
+    )
     handler.setFormatter(formatter)
 
     logger = logging.getLogger()
@@ -85,10 +91,17 @@ if __name__ == "__main__":
 
                 temp = read_temperature()
                 humi = read_humidity()
-                data.append((channel, time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()), temp, humi))
+                data.append(
+                    (
+                        channel,
+                        time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                        temp,
+                        humi,
+                    )
+                )
             except Exception as e:
                 logger.error(f"오류 발생: {e}")
-            
+
         # # Print all collected data
         # for channel, temperature, humidity in data:
         #     print(f"Channel {channel} - Temperature: {temperature:.2f} C, Humidity: {humidity:.2f} %")
@@ -99,10 +112,10 @@ if __name__ == "__main__":
                     "id": DEVICE_ID[channel],
                     "time": measure_time,
                     "temp": temperature,
-                    "humi": humidity
+                    "humi": humidity,
                 }
                 for channel, measure_time, temperature, humidity in data
-            ]
+            ],
         }
 
         print(json)

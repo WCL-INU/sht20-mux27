@@ -2,11 +2,14 @@ import time
 import RPi.GPIO as GPIO
 import smbus2
 
+
 class DualMuxController:
     def __init__(self, mux_select_pins, mux_enable_pins, number_of_channels, i2c_bus=1):
         self.mux_select_pins = mux_select_pins
         self.mux_enable_pins = mux_enable_pins
-        self.number_of_channels = number_of_channels  # [첫번째 MUX 채널 수, 두번째 MUX 채널 수]
+        self.number_of_channels = (
+            number_of_channels  # [첫번째 MUX 채널 수, 두번째 MUX 채널 수]
+        )
         self.bus = smbus2.SMBus(i2c_bus)
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)

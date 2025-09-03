@@ -101,6 +101,7 @@ if __name__ == "__main__":
                 )
             except Exception as e:
                 logger.error(f"오류 발생: {e}")
+                logger.error(f"\t error sensor is {channel + 1}")
 
         # # Print all collected data
         # for channel, temperature, humidity in data:

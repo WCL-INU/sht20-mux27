@@ -2,8 +2,8 @@
 
 # This script sets up the SHT20 sensor on a Raspberry Pi
 
-sudo apt update
-sudo apt upgrade -y
+sudo apt-get update
+sudo apt-get upgrade -y
 
 python3 -m venv venv
 source venv/bin/activate
